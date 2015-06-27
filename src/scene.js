@@ -72,14 +72,14 @@ function Scene(el, options) {
 	this.frame = function() {
 		if (work) this.requestAnimFrame( this.frame );
 		else return 0;
-		console.log('frame N' + ++frame_number);
+		//console.log('frame N' + ++frame_number);
 		
 		for (var name in this.scene) if (this.scene[name].clear_each_frame) this.clear_scene(name);
 		
 		var n = this.queue.length;
 		while (n--) {
 			var task = this.queue[n];
-			console.log('worker', task.worker);
+			//console.log('worker', task.worker);
 			if (task.worker.move && typeof task.worker.move == 'function') task.worker.move();
 			if (task.method) task.worker[task.method](this.scene[task.type].ctx, this);
 		}

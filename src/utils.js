@@ -200,5 +200,5 @@ utils.inherit = function (Child, Parent) {
 
     Child.prototype = new F();
     Child.prototype.constructor = Child;
-    Child.prototype.super = Parent.prototype;
+    Child.super = Parent.prototype;
 };
