@@ -1,14 +1,15 @@
 function Scene(el, options) {
 	/* values */
 	
-	if (!options) options = {};
 	this.el = el;
+	this.options = options || {};
+	if (!this.options.bgColor) this.options.bgColor = utils.get_style(this.el).backgroundColor || '#FFF';
 	
 	this.width = el.offsetWidth;
 	this.height = el.offsetHeight;
 	
 	var scenes = [
-		  {tag: 'canvas', name: 'stable',  id: 'stable',  clear_each_frame: false, bgColor: options.bgColor || '#FFF'}
+		  {tag: 'canvas', name: 'stable',  id: 'stable',  clear_each_frame: false, bgColor: this.options.bgColor}
 		, {tag: 'canvas', name: 'effects', id: 'effects', clear_each_frame: true,  bgColor: null}
 		, {tag: 'canvas', name: 'figures', id: 'figures', clear_each_frame: true,  bgColor: null}
 	];
@@ -91,6 +92,17 @@ function Scene(el, options) {
 	this.resumeAnimation = function() { work = true; this.frame() }.bind(this);
 	this.toggleAnimation = function() { work ? this.pauseAnimation() : this.resumeAnimation()}.bind(this);
 	
+	// resize
+	this.resize = function() {
+		this.width = parseInt(window.innerWidth);
+		this.height = parseInt(window.innerHeight);
+		for (var name in this.scene) {
+			this.scene[name].canvas.width = this.width;
+			this.scene[name].canvas.height = this.height;
+		}
+		this.clear_scene();
+	}.bind(this);
+
 	// collision
 	this.check_collision = function() {
 		return 0;
@@ -103,7 +115,7 @@ function Scene(el, options) {
 	}.bind(this);
 	
 	/* constructor */
-	
+
 	this.id = el.id || String(Math.random()).substr(2, 9);
 	el.style.position = 'relative';
 	this.scene = {};
@@ -125,5 +137,9 @@ function Scene(el, options) {
 		this.scene[scenes[i].name].ctx = this.scene[scenes[i].name].canvas.getContext('2d');
 	}
 	
+	if (this.options.fill_screen) {
+		this.resize();
+		window.onresize = this.resize;
+	}
 	this.frame();	
 }

@@ -26,6 +26,12 @@ utils.add_canvas = function(width, height, id) {
 	return canvas;
 };
 
+utils.get_style = function(el) {
+	if (el.currentStyle) return el.currentStyle;
+	if (window.getComputedStyle) return document.defaultView.getComputedStyle(el, null);
+	return null;
+}
+
 /* Point */
 
 function Point(options) {
