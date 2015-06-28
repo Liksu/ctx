@@ -8,7 +8,7 @@ Bubble.prototype.init = function(ctx, scene) {
 	Bubble.super.init.call(this, ctx, scene);
 	
 	this.center.x.set_step(utils.rnd(0.05, 0.25, true, true));
-	this.center.y.set_step(utils.rnd(0.05, 0.25, true, true));
+	this.center.y.set_step(utils.rnd(-0.25, 0.25, true, true));
 	
 	var palette = [
 		[170, 239, 159, 1],
