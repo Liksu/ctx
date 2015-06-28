@@ -172,7 +172,9 @@ utils.RGB = function(alpha) {
 				  this.r.val()
 				, this.g.val()
 				, this.b.val()
-				, over_alpha || (alpha === true ? this.alpha.value / 100 : alpha)
+				, typeof over_alpha === 'number'
+					? (over_alpha > 1 ? over_alpha / 100 : over_alpha)
+					: (alpha === true ? this.alpha.value / 100 : alpha)
 				].join(', ') + ')';
 		}
 		: function() {
