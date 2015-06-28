@@ -150,6 +150,21 @@ utils.rotate_point = function(point, base, degree) {
 	return new_coordinates;
 };
 
+utils.collide = function(point_a, point_b, mass_a, mass_b) {
+	var dXa = point_a.x.step,
+	    dYa = point_a.y.step,
+	    dXb = point_b.x.step,
+	    dYb = point_b.y.step,
+	    ma  = mass_a || 1,
+	    mb  = mass_b || 1;
+	
+	point_a.x.step = (2 * mb * dXb + (ma - mb) * dXa) / (ma + mb);
+	point_a.y.step = (2 * mb * dYb + (ma - mb) * dYa) / (ma + mb);
+	
+	point_b.x.step = (2 * ma * dXa + (mb - ma) * dXb) / (ma + mb);
+	point_b.y.step = (2 * ma * dYa + (mb - ma) * dYb) / (ma + mb);
+};
+
 /* Colors */
 
 utils.ColorPoint = function() {
