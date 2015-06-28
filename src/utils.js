@@ -1,10 +1,14 @@
 var utils = {};
 
 utils.rnd = function(min, max, moving, can_be_float) {
+	if (arguments.length == 1 && min instanceof Array) {
+		return min[ Math.floor(Math.random() * min.length) ]
+	}
+	
 	if (can_be_float === undefined) can_be_float = false;
 	var result;
 	do {
-		result = Math.random() * (max - min + 1);
+		result = Math.random() * (max - min + (Math.trunc(min) === min && Math.trunc(max) === max));
 		if (!can_be_float) result = Math.floor(result);
 		result += min;
 	} while (moving && result == 0);
@@ -152,12 +156,42 @@ utils.ColorPoint = function() {
 		return (this.color.value < 16 ? '0' : '') + this.color.value.toString(16);
 	};
 };
+
+utils.fixed_RGB = function(r, g, b, alpha) {
+	if (arguments.length == 1 && r instanceof Array) {
+		alpha = r[3];
+		b = r[2];
+		g = r[1];
+		r = r[0];
+	}
+	
+	if (typeof alpha !== 'number') alpha = 1;
+	else if (alpha > 1) alpha = alpha / 100;
+	
+	function hex(n) { 
+		return (n < 16 ? '0' : '') + n.toString(16);
+	}
+	
+	this.move = function() { return true };
+	
+	this.val = function(over_alpha) {
+		return 'rgba(' + [r, g, b,
+			typeof over_alpha === 'number'
+				? (over_alpha > 1 ? over_alpha / 100 : over_alpha)
+				: alpha
+			].join(', ') + ')';
+	};
+	
+	this.hex = function() {
+		return '#' + hex(r) + hex(g) + hex(b)
+	}
+};
 	
 utils.RGB = function(alpha) {
 	this.r = new utils.ColorPoint();
 	this.g = new utils.ColorPoint();
 	this.b = new utils.ColorPoint();
-	if (alpha) this.alpha = alpha !== true ? alpha : (new Point(0, 100)).init();
+	if (alpha) this.alpha = alpha !== true ? alpha : (new Point({min: 0, max: 100})).init();
 	
 	this.move = function() {
 		this.r.move();
@@ -166,7 +200,7 @@ utils.RGB = function(alpha) {
 		if (alpha === true) this.alpha.move();
 	}
 	
-	this.val = alpha
+	this.val = alpha || alpha === 0
 		? function(over_alpha) {
 			return 'rgba(' + [
 				  this.r.val()

@@ -4,6 +4,26 @@ function Bubble(radius, fill) {
 }
 utils.inherit(Bubble, Circle);
 
+Bubble.prototype.init = function(ctx, scene) {
+	Bubble.super.init.call(this, ctx, scene);
+	
+	this.center.x.set_step(utils.rnd(0.05, 0.25, true, true));
+	this.center.y.set_step(utils.rnd(0.05, 0.25, true, true));
+	
+	var palette = [
+		[170, 239, 159, 1],
+		[222, 91, 66, 0.54],
+		[200, 91, 235, 0.94],
+		[213, 6, 178, 0.23],
+		[5, 214, 29, 0.8],
+		[161, 130, 196, 0.13],
+		[29, 249, 64, 0.83],
+		[253, 59, 137, 0.86]
+	];
+	
+	this.color = new utils.fixed_RGB(utils.rnd(palette));
+};
+
 Bubble.prototype.draw = function(ctx, scene) {
 	var gradient = ctx.createRadialGradient(
 		this.center.x.value, this.center.y.value, this.radius.value,
