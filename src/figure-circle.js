@@ -3,6 +3,7 @@ function Circle(radius, fill) {
 	else if (!(radius instanceof Point)) this.radius = new Point({value: radius, fixed: true}).init();
 
 	this.fill = fill;
+	this.stroke = true;
 	//console.log(radius, this.radius, this.fill);	
 }
 
@@ -32,12 +33,14 @@ Circle.prototype.draw = function(ctx) {
 	ctx.beginPath();
 	ctx.arc(this.center.x.value, this.center.y.value, this.radius.value, 0, 2 * Math.PI);
 	ctx.closePath();
-	ctx.strokeStyle = this.color.hex();
+	if (this.stroke) {
+		ctx.strokeStyle = this.stroke === true ? this.color.hex() : this.stroke;
+		ctx.stroke();
+	}
 	if (this.fill) {
 		ctx.fillStyle = this.fill === true ? this.color.val() : this.fill;
 		ctx.fill();
 	}
-	ctx.stroke();
 };
 
 /*
