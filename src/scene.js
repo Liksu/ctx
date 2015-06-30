@@ -123,7 +123,7 @@ function Scene(el, options) {
 						var distance = utils.distance(figure_data.center, partner_data.center);
 						// if circles intersect or touch, change their movement vectors
 						if (distance <= figure_data.radius.value + partner_data.radius.value) {
-							utils.collide(figure.center, partner.center, figure_data.mass, partner_data.mass);
+							utils.collide(figure_data.center, partner_data.center, figure_data.mass, partner_data.mass);
 						}
 					}
 					// polygon and circle

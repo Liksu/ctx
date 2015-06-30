@@ -36,6 +36,8 @@ utils.get_style = function(el) {
 
 function Point(options) {
 	if (!options) options = {};
+	if (typeof options === 'number') options = {value: options, fixed: true};
+	
 	this.value = options.value || 0;
 	this.step = options.step || 1;
 	this.max = options.max || 255;

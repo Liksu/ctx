@@ -22,6 +22,8 @@
 
 	var bubbles = new Scene(document.getElementById('bubbles'), {fill_screen: true});
 	n = 7; while (n--) bubbles.add_figure(new Circle(null, true));
+	n = 7; while (n--) bubbles.add_figure(new SpinStar(utils.rnd(32, 64)));
+	n = 24; while (n--) bubbles.add_figure(new Bubble(null, true));
 	bubbles.el.addEventListener('click', function() { bubbles.toggleAnimation() });
 	
 	// for debug
