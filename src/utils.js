@@ -20,7 +20,7 @@ utils.add_canvas = function(width, height, id) {
 	canvas.setAttribute('id', id || 'canvas' + String(Math.random()).substr(1, 7));
 	canvas.width = width;
 	canvas.height = height;
-	canvas.style.visibility = 'hidden';
+	canvas.style.display = 'none';
 	document.body.appendChild(canvas);
 	
 	return canvas;
