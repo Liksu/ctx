@@ -4,6 +4,7 @@ function Scene(el, options) {
 	this.el = el;
 	this.options = options || {};
 	if (!this.options.bgColor) this.options.bgColor = utils.get_style(this.el).backgroundColor || '#FFF';
+	if (this.options.collisions === undefined) this.options.collisions = true; 
 	
 	this.width = el.offsetWidth;
 	this.height = el.offsetHeight;
@@ -85,7 +86,7 @@ function Scene(el, options) {
 			if (task.method) task.worker[task.method](this.scene[task.type].ctx, this);
 		}
 		
-		this.check_collision();
+		if (this.options.collisions) this.check_collision();
 	}.bind(this);
 	
 	this.pauseAnimation = function() { work = false }.bind(this);
@@ -105,9 +106,30 @@ function Scene(el, options) {
 
 	// collision
 	this.check_collision = function() {
-		return 0;
+		// loop over all figures
 		this.queue.forEach(function(figure, index) {
-			this.queue.slice(index + 1).forEach(function (partner, pindex) {
+			figure = figure.worker;
+			var figure_data;
+			if (typeof figure.get_data === 'function') figure_data = figure.get_data();
+			// if figure can be processed (has data for collision), loop over tail of figures array
+			if (figure_data) this.queue.slice(index + 1).forEach(function (partner, pindex) {
+				partner = partner.worker;
+				var partner_data;
+				if (typeof partner.get_data === 'function') partner_data = partner.get_data();
+				// if partner figure also can be processed, check collision
+				if (partner_data) {
+					// the simplest situation: two circles
+					if (figure_data.type === 'circle' && partner_data.type === 'circle') {
+						var distance = utils.distance(figure_data.center, partner_data.center);
+						// if circles intersect or touch, change their movement vectors
+						if (distance <= figure_data.radius.value + partner_data.radius.value) {
+							utils.collide(figure_data.center, partner_data.center, figure_data.mass, partner_data.mass);
+						}
+					}
+					// polygon and circle
+					// circle and polygon
+					// polygon and polygon
+				}
 				//if (figure.check_collision && typeof figure.check_collision == 'function') figure.check_collision(partner);
 				//intersection
 			}.bind(this));

@@ -1,4 +1,5 @@
 html, body, div {margin: 0; padding: 0}
+html, body { height: 100% }
 
 #main {
 	width: 640px;
@@ -18,4 +19,20 @@ html, body, div {margin: 0; padding: 0}
 
 #bubbles {
 	background-color: black;
+}
+
+#main50 {
+	background-color: rgba(0, 0, 128, 1);
+	float: left;
+	width: 50%;
+	min-height: 500px;
+	height: 100%;
+}
+
+#bubbles50 {
+	background-color: black;
+	float: right;
+	width: 50%;
+	min-height: 500px;
+	height: 100%;
 }

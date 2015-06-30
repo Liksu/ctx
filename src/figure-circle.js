@@ -43,6 +43,16 @@ Circle.prototype.draw = function(ctx) {
 	}
 };
 
+Circle.prototype.get_data = function() {
+	//console.log('Circle get_data');
+	return {
+		type: 'circle',
+		center: this.center,
+		radius: this.radius,
+		mass: Math.PI * Math.pow(this.radius.value, 2)
+	}
+};
+
 /*
 Circle.prototype.check_collision = function(figure) {
 	figure.

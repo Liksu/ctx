@@ -34,6 +34,8 @@ function SpinStar(size) {
 		ctx.stroke();
 		ctx.fillStyle = color.val();
 		ctx.fill();
+		
+		return outerRadius;
 	}
 
 	var canvas = utils.add_canvas(size, size, 'spin_star' + String(Math.random()).substr(1, 4));
@@ -41,7 +43,7 @@ function SpinStar(size) {
 	
 	this.color = new utils.RGB(true);
 	var stroke = utils.rnd(1, 3);
-	drawStar(canvas.getContext('2d'), utils.rnd(5, 8), size / 2, utils.rnd(size / 7, size / 3), stroke, this.color);
+	var outerRadius = drawStar(canvas.getContext('2d'), utils.rnd(5, 8), size / 2, utils.rnd(size / 7, size / 3), stroke, this.color);
 	
 	this.degrees = 0;
 	this.init = function(ctx, scene) {
@@ -50,10 +52,26 @@ function SpinStar(size) {
 	
 	this.draw = function(ctx, scene) {
 		this.position.move();
+		this.position.x.min = size / 2;
+		this.position.x.max = scene.width - size / 2;
+		this.position.y.min = size / 2;
+		this.position.y.max = scene.height - size / 2;
+		
+		
 		ctx.save();
 		ctx.translate(this.position.x.value, this.position.y.value);
 		ctx.rotate((Math.PI/180) * this.degrees++);
 		ctx.drawImage(canvas, -size / 2, -size / 2);
 		ctx.restore();
 	};
+	
+
+	this.get_data = function() {
+		return {
+			type: 'circle',
+			center: this.position,
+			radius: new Point(outerRadius),
+			mass: Math.PI * Math.pow(outerRadius, 2)
+		}
+	};	
 }
