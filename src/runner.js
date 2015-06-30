@@ -1,9 +1,8 @@
 (function() {
 	var n;
 	var first_scene = new Scene(document.getElementById('main50'));
-	n = 32; while (n--) first_scene.add_figure(new Circle(null, true));
-	n = 12; while (n--) first_scene.add_figure(new SpinStar(utils.rnd(32, 64)));
-	//n = 8; while (n--) first_scene.add_figure(new Box(32, 64), null, false);
+	n = 7; while (n--) first_scene.add_figure(new Circle(null, true));
+	n = 4; while (n--) first_scene.add_figure(new SpinStar(utils.rnd(32, 64)));
 	first_scene.el.addEventListener('click', function() { first_scene.toggleAnimation() });
 	
 	/*
@@ -19,7 +18,7 @@
 	*/
 
 	var bubbles = new Scene(document.getElementById('bubbles50'));
-	n = 24; while (n--) bubbles.add_figure(new Bubble(null, true));
+	n = 21; while (n--) bubbles.add_figure(new Bubble(utils.rnd(32, 64), true));
 	bubbles.el.addEventListener('click', function() { bubbles.toggleAnimation() });
 	
 	// for debug
