@@ -66,7 +66,7 @@ function Scene(el, options) {
 
 	this.remove_figure = function(position) {
 		// this.draw_queues[ this.queue[position].type ].splice( this.queue[position].link );
-		return this.queue.splice(position).length;
+		return this.queue.splice(position, 1).length;
 	}.bind(this);
 	
 	// animation

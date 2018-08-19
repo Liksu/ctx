@@ -1,14 +1,15 @@
-function Bubble(radius, fill) {
-	Circle.apply(this, arguments);
+function Bubble(radius, fill, speed) {
+	Circle.call(this, radius, fill);
 	this.stroke = false;
+	this.speed = speed || 1;
 }
 utils.inherit(Bubble, Circle);
 
 Bubble.prototype.init = function(ctx, scene) {
 	Bubble.super.init.call(this, ctx, scene);
 	
-	this.center.x.set_step(utils.rnd(0.05, 0.25, true, true));
-	this.center.y.set_step(utils.rnd(-0.25, 0.25, true, true));
+	this.center.x.set_step(utils.rnd(0.05 * this.speed, 0.25 * this.speed, true, true));
+	this.center.y.set_step(utils.rnd(-0.25 * this.speed, 0.25 * this.speed, true, true));
 	
 	var palette = [
 		[170, 239, 159, 1],
@@ -21,7 +22,7 @@ Bubble.prototype.init = function(ctx, scene) {
 		[253, 59, 137, 0.86]
 	];
 	
-	this.color = new utils.fixed_RGB(utils.rnd(palette));
+	this.color = new utils.RGB(utils.rnd(palette));
 };
 
 Bubble.prototype.draw = function(ctx, scene) {
